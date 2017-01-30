@@ -1,0 +1,168 @@
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>PT Mockup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="">
+
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+  
+  <style type="text/css">
+    /* CSS for PatchTracker dashboard */
+    .pt-dash-table > thead > tr > th,
+    .pt-dash-table > tbody > tr > td {
+      text-align: center;
+    }
+    .pt-dash-table > thead > tr > th:nth-of-type(1),
+    .pt-dash-table > tbody > tr > td:nth-of-type(1) {
+      text-align: right;
+    }
+    
+    /*.pt-dash-table .collapsing {*/
+    /*  transition: height 0.6s;*/
+    /*}*/
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-offset-1 col-md-10">
+        <h3>PatchTracker > Cycle 2017-01-0049 > Date 2017-01-30 > Dashboard</h3>
+        <div class="row">
+            <!-- Knockout binding for loop rendering panelTemplates -->
+            <div data-bind="template: {name: 'panelTemplate',foreach: panels, as: 'panel'}"></div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Knockout template for rendering a window table -->
+  <script type="text/html" id="panelTemplate">
+    <div class="col-md-6" style="inline-block">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 data-bind="text: name"></h4>
+        </div>
+        <div class="panel-body">
+          <div data-bind="template: { name: 'windowTemplate', foreach: windows, as: 'window' }"></div>
+        </div>
+      </div>
+    </div>
+  </script>
+   
+  <!-- Knockout template for rendering a window table -->
+  <script type="text/html" id="windowTemplate">
+    <table class="table table pt-dash-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th colspan="3">Patching</th>
+          <th>Opt Out</th>
+          <th>Total</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>Pending</th>
+          <th>In Prog</th>
+          <th>Finished</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr data-toggle="XXXcollapse" data-bind="attr: { 'data-target': '#'+(panel.name+name).replace(/\W/g,'_') }">
+          <th data-bind="text: name"></th>
+          <th data-bind="text: stats.pending"></th>
+          <th data-bind="text: stats.in_progress"></th>
+          <th data-bind="text: stats.finished"></th>
+          <th data-bind="text: stats.opt_out"></th>
+          <th data-bind="text: stats.total"></th>
+        </tr>
+      </thead>
+      <tbody class="XXXcollapse" data-bind="template: { name: 'waveTemplate', foreach: waves, as: 'wave' }, attr: { 'id': (panel.name+name).replace(/\W/g,'_') }">
+      </tbody>
+    </table>
+  </script>
+
+  <!-- Knockout template for rendering a wave row -->
+  <script type="text/html" id="waveTemplate">
+    <tr>
+      <td data-bind="text: name, attr: { 'title': panel.filter+'&'+window.filter+'&'+wave.filter }"></td>
+      <td data-bind="text: stats.pending"></td>
+      <td data-bind="text: stats.in_progress"></td>
+      <td data-bind="text: stats.finished"></td>
+      <td data-bind="text: stats.opt_out"></td>
+      <td data-bind="text: stats.total"></td>
+    </tr>
+  </script>
+
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
+
+  <script type="text/javascript">
+    /**
+     * ViewModel for building patching stats panels
+     */
+    var ViewModel = function(panels) {
+      var self = this;
+      self.panels = ko.observableArray([]);
+
+      self.update = function() {
+        $.ajax({
+          url: "panel_data.json",
+          dataType: "json",
+          method: "GET"
+        })
+        .done(function(data) {
+          if (data.panels) {
+            var panels = data.panels;
+            console.log("panel api success");
+            //console.debug(JSON.stringify(panels))
+            
+            // ---- clone data for testing ----
+            var json = JSON.stringify(panels[0]);
+            panels[1] = JSON.parse(json);
+            panels[1].name = "Network: TEST"
+            //panels[1].windows.pop();
+            
+            panels[2] = JSON.parse(json);
+            panels[2].name = "Network: DEV"            
+            
+            panels[3] = JSON.parse(json);
+            panels[3].name = "Network: LAB"            
+            
+            panels[4] = JSON.parse(json);
+            panels[4].name = "Network: JPOW"            
+            // ---- clone data for testing ----
+            
+            // update panels with new data
+            self.panels( panels );
+          }
+          else {
+            console.error("No panel data in response");
+          }
+        })
+        .fail(function(xhr, textStatus, errorThrown) {
+          console.error( textStatus + " -- " + errorThrown);
+        })
+      }  
+    }
+  
+    // Setup knockout.js bindings
+    var viewModel = new ViewModel();
+    ko.applyBindings(viewModel);
+    viewModel.update(); // initialize
+    
+    // Do model content refresh every X milliseconds
+    var UPDATE_INTERVAL_SECS = 10;
+    window.setInterval(viewModel.update, UPDATE_INTERVAL_SECS * 1000);
+
+  </script>
+
+</body>
+
+</html>

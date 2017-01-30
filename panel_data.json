@@ -1,0 +1,125 @@
+{
+  "panels": [
+    {
+      "name": "Network: PROD",
+      "filter": "mei__resource__clse__network=prod",
+      "windows": [
+        {
+          "name": "Window 1",
+          "filter": "mei__maintevent__window=1",
+          "stats": {
+            "pending": 12,
+            "in_progress": 12,
+            "finished": 153,
+            "opt_out": 62,
+            "total": 235
+          },
+          "waves": [
+            {
+              "name": "Wave 1",
+              "filter": "mei__maintevent__wave=1",
+              "stats": {
+                "pending": 0,
+                "in_progress": 12,
+                "finished": 153,
+                "opt_out": 62,
+                "total": 235
+              }
+            },
+            {
+              "name": "Wave 2",
+              "filter": "mei__maintevent__wave=2",
+              "stats": {
+                "pending": 24,
+                "in_progress": 66,
+                "finished": 22,
+                "opt_out": 24,
+                "total": 102
+              }
+            },
+            {
+              "name": "Wave 3",
+              "filter": "mei__maintevent__wave=3",
+              "stats": {
+                "pending": 55,
+                "in_progress": 0,
+                "finished": 0,
+                "opt_out": 24,
+                "total": 74
+              }
+            },
+            {
+              "name": "Wave 4",
+              "filter": "mei__maintevent__wave=3",
+              "stats": {
+                "pending": 12,
+                "in_progress": 0,
+                "finished": 0,
+                "opt_out": 5,
+                "total": 17
+              }
+            }
+          ]
+        },
+        {
+          "name": "Window 2",
+          "filter": "mei__maintevent__window=1",
+          "stats": {
+            "pending": 12,
+            "in_progress": 12,
+            "finished": 153,
+            "opt_out": 62,
+            "total": 235
+          },
+          "waves": [
+            {
+              "name": "Wave 1",
+              "filter": "mei__maintevent__wave=1",
+              "stats": {
+                "pending": 0,
+                "in_progress": 12,
+                "finished": 153,
+                "opt_out": 62,
+                "total": 235
+              }
+            },
+            {
+              "name": "Wave 2",
+              "filter": "mei__maintevent__wave=2",
+              "stats": {
+                "pending": 24,
+                "in_progress": 66,
+                "finished": 22,
+                "opt_out": 24,
+                "total": 102
+              }
+            },
+            {
+              "name": "Wave 3",
+              "filter": "mei__maintevent__wave=3",
+              "stats": {
+                "pending": 55,
+                "in_progress": 0,
+                "finished": 0,
+                "opt_out": 24,
+                "total": 74
+              }
+            },
+            {
+              "name": "Wave 4",
+              "filter": "mei__maintevent__wave=3",
+              "stats": {
+                "pending": 12,
+                "in_progress": 0,
+                "finished": 0,
+                "opt_out": 5,
+                "total": 17
+              }
+            }
+            
+          ]
+        }
+      ]
+    }
+  ]
+}

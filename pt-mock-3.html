@@ -1,0 +1,212 @@
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>Bootply snippet - Bootply Bootstrap Preview</title>
+  <meta name="generator" content="Bootply">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="">
+
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+  
+  <!-- CSS code from Bootply.com editor -->
+  <style type="text/css">
+    /* CSS used here will be applied after bootstrap.css */
+    .pt-dash-table > thead > tr > th {
+      text-align: center;
+    }
+    .pt-dash-table > tbody > tr > td {
+      text-align: center;
+    }
+    
+    .pt-dash-table tr.window-row > td {
+      /*font-size: 16px;*/
+      font-weight: 800;
+    }
+    .pt-dash-table tr.wave-row > td {
+      font-size: 12px;
+    }
+    
+  </style>
+</head>
+
+<!-- HTML code from Bootply.com editor -->
+<body>
+
+  <div id="root"></div>
+
+  <h3>
+    PatchTracker > Cycle 2017-01-0049 > Date 2017-01-30 > Dashboard
+  </h3>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6"></div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>PROD</h4>
+          <h4 data-bind="text: name"></h4>
+        </div>
+        <div class="panel-body">
+          <table class="table pt-dash-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th colspan="3">Patching</th>
+                <th>Opt Out</th>
+                <th>Total</th>
+              </tr>
+              <tr>
+                <th></th>
+                <th>Pending</th>
+                <th>In Prog</th>
+                <th>Finished</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody data-bind="foreach: windows">
+              <tr>
+                <td data-bind="text: name"></td>
+                <td data-bind="text: stats.pending"></td>
+                <td data-bind="text: stats.in_progress"></td>
+                <td data-bind="text: stats.finished"></td>
+                <td data-bind="text: stats.opt_out"></td>
+                <td data-bind="text: stats.total"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div>START</div>
+        <div class="container" data-bind="
+          template: {
+            name: 'nestedTemplate', 
+            foreach: master
+          }
+        "></div>
+        <div>END</div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
+
+
+  <script type="text/html" id="nestedTemplate">
+    <div class="name" data-bind="text: name"></div>
+    <div class="function" data-bind="text: function"></div>
+    <div class="container" data-bind="
+      template: {
+        name: 'nestedTemplate', 
+        foreach: Children
+      }
+    "></div>
+  </script>
+
+  <script type="text/javascript">
+    var panels = [
+      {
+        name: "Network: PROD",
+        filter: "mei__resource__clse__network=prod",
+        children: [
+          {
+            name: "Window 1",
+            filter: "mei__maintevent__window=1",
+            stats: {
+              pending: 12,
+              in_progress: 12,
+              finished: 153, 
+              opt_out: 62, 
+              total: 235 
+            },
+            children: [
+              { 
+                name: "Wave 1",
+                filter: "mei__maintevent__wave=1",
+                stats: {
+                  pending: 0, 
+                  in_progress: 12, 
+                  finished: 153, 
+                  opt_out: 62, 
+                  total: 235
+                },
+              },
+              {
+                name: "Wave 2",
+                filter: "mei__maintevent__wave=2",
+                stats: {
+                  pending: 0, 
+                  in_progress: 12, 
+                  finished: 153, 
+                  opt_out: 62, 
+                  total: 235
+                },
+              },
+              {
+                name: "Wave 3",
+                filter: "mei__maintevent__wave=3",
+                stats: {
+                  pending: 0, 
+                  in_progress: 12, 
+                  finished: 153, 
+                  opt_out: 62, 
+                  total: 235
+                },
+              }
+            ]
+          }
+        ]
+      },
+    ];
+
+    //ko.applyBindings({waves: panels[0].rows[0].rows})
+    //import ko from 'ko'
+
+// Class to represent a row in the seat reservations grid
+      // function SeatReservation(name, initialMeal) {
+      //     var self = this;
+      //     self.name = name;
+      //     self.meal = ko.observable(initialMeal);
+      
+      //     self.formattedPrice = ko.computed(function() {
+      //         var price = self.meal().price;
+      //         return price ? "$" + price.toFixed(2) : "None";        
+      //     });    
+      // }
+
+    function WindowModel(data) {
+        var self = this;
+        self.name = data.name;
+        self.filter = data.filter;
+        self.waves = ko.observableArray(data.children);
+        console.log("WindowModel: "+JSON.stringify(self));
+    };
+
+    function PanelModel(data) {
+        var self = this;
+        self.name = data.name;
+        self.filter = data.filter;
+        self.windows = ko.observableArray(data.children);
+        console.log("PanelModel: "+JSON.stringify(self));
+    };
+
+    var panelModel = new PanelModel(panels[0]);
+    ko.applyBindings(panelModel);
+
+    //var panelModel = new PanelModel();
+    //panelModel.name("PROD2")filter("dummy").windows(panels[0].windows);
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,236 @@
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>Bootply snippet - Bootply Bootstrap Preview</title>
+  <meta name="generator" content="Bootply">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="">
+
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+  
+  <!-- CSS code from Bootply.com editor -->
+  <style type="text/css">
+    /* CSS used here will be applied after bootstrap.css */
+    .pt-dash-table > thead > tr > th,
+    .pt-dash-table > tbody > tr > td {
+      text-align: center;
+    }
+    .pt-dash-table > thead > tr > th:nth-of-type(1),
+    .pt-dash-table > tbody > tr > td:nth-of-type(1) {
+      text-align: right;
+    }
+    
+  </style>
+</head>
+
+<!-- HTML code from Bootply.com editor -->
+<body>
+
+  <div id="root"></div>
+
+  <h3>
+    PatchTracker > Cycle 2017-01-0049 > Date 2017-01-30 > Dashboard
+  </h3>
+
+  <div class="container">
+    <div class="row">
+
+      <!--<div class="col-md-6">-->
+
+        <div data-bind="template: {name: 'panelTemplate',foreach: panels, as: 'panel'}"></div>
+         
+        <script type="text/html" id="panelTemplate">
+          <div class="col-md-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 data-bind="text: name"></h4>
+              </div>
+              <div class="panel-body">
+                <div data-bind="template: { name: 'windowTemplate', foreach: windows, as: 'window' }"></div>
+              </div>
+            </div>
+          </div>
+        </script>
+         
+        <script type="text/html" id="windowTemplate">
+          <table class="table table-bordered pt-dash-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th colspan="3">Patching</th>
+                <th>Opt Out</th>
+                <th>Total</th>
+              </tr>
+              <tr>
+                <th></th>
+                <th>Pending</th>
+                <th>In Prog</th>
+                <th>Finished</th>
+                <th></th>
+                <th></th>
+              </tr>
+              <tr>
+                <th data-bind="text: name"></th>
+                <th data-bind="text: stats.pending"></th>
+                <th data-bind="text: stats.in_progress"></th>
+                <th data-bind="text: stats.finished"></th>
+                <th data-bind="text: stats.opt_out"></th>
+                <th data-bind="text: stats.total"></th>
+              </tr>
+            </thead>
+            <tbody data-bind="template: { name: 'waveTemplate', foreach: waves, as: 'wave' }"></tbody>
+          </table>
+        </script>
+
+        <script type="text/html" id="waveTemplate">
+          <tr>
+            <td data-bind="text: name"></td>
+            <td data-bind="text: stats.pending"></td>
+            <td data-bind="text: stats.in_progress"></td>
+            <td data-bind="text: stats.finished"></td>
+            <td data-bind="text: stats.opt_out"></td>
+            <td data-bind="text: stats.total"></td>
+          </tr>
+        </script>
+
+      <!--</div>-->
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
+
+  <script type="text/javascript">
+    var data = {
+      panels: [
+        {
+          name: "Network: PROD",
+          filter: "mei__resource__clse__network=prod",
+          windows: [
+            {
+              name: "Window 1",
+              filter: "mei__maintevent__window=1",
+              stats: {
+                pending: 12,
+                in_progress: 12,
+                finished: 153, 
+                opt_out: 62, 
+                total: 235 
+              },
+              waves: [
+                { 
+                  name: "Wave 1",
+                  filter: "mei__maintevent__wave=1",
+                  stats: {
+                    pending: 0, 
+                    in_progress: 12, 
+                    finished: 153, 
+                    opt_out: 62, 
+                    total: 235,
+                  },
+                },
+                {
+                  name: "Wave 2",
+                  filter: "mei__maintevent__wave=2",
+                  stats: {
+                    pending: 24, 
+                    in_progress: 66, 
+                    finished: 22, 
+                    opt_out: 24, 
+                    total: 102,
+                  },
+                },
+                {
+                  name: "Wave 3",
+                  filter: "mei__maintevent__wave=3",
+                  stats: {
+                    pending: 55, 
+                    in_progress: 0, 
+                    finished: 0, 
+                    opt_out: 24, 
+                    total: 74
+                  },
+                }
+              ]
+            },
+            {
+              name: "Window 2",
+              filter: "mei__maintevent__window=1",
+              stats: {
+                pending: 12,
+                in_progress: 12,
+                finished: 153, 
+                opt_out: 62, 
+                total: 235 
+              },
+              waves: [
+                { 
+                  name: "Wave 1",
+                  filter: "mei__maintevent__wave=1",
+                  stats: {
+                    pending: 0, 
+                    in_progress: 12, 
+                    finished: 153, 
+                    opt_out: 62, 
+                    total: 235,
+                  },
+                },
+                {
+                  name: "Wave 2",
+                  filter: "mei__maintevent__wave=2",
+                  stats: {
+                    pending: 24, 
+                    in_progress: 66, 
+                    finished: 22, 
+                    opt_out: 24, 
+                    total: 102,
+                  },
+                },
+                {
+                  name: "Wave 3",
+                  filter: "mei__maintevent__wave=3",
+                  stats: {
+                    pending: 55, 
+                    in_progress: 0, 
+                    finished: 0, 
+                    opt_out: 24, 
+                    total: 74
+                  },
+                }
+              ]
+            },
+          ]
+        },
+      ]
+    }
+
+    // Copy panel data for UI testing
+    json = JSON.stringify(data.panels[0]);
+    console.log(json)
+    
+    data.panels[1] = JSON.parse(json);
+    data.panels[1].name = "Network: TEST"
+    data.panels[1].windows.pop();
+    
+    data.panels[2] = JSON.parse(json);
+    data.panels[2].name = "Network: DEV"
+    
+    
+    var ViewModel = function(panels) {
+        var self = this;
+        self.panels = ko.observableArray(panels);
+    }
+
+    ko.applyBindings(new ViewModel(data.panels));
+
+  </script>
+
+</body>
+
+</html>
